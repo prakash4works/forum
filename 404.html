@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>Download Document</title>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+        <link href="assets/css/appcss.css" rel="stylesheet" />
+        <link href="assets/css/bootstrapcss.css" rel="stylesheet" />
+        <link href="assets/css/customcss.css" rel="stylesheet" />
+
+        <!-- <script src="assets/js/jquery.js"></script> -->
+        <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
+        <script src="assets/js/modernizr.js"></script>
+        <script src="assets/js/bootstrap.js"></script>
+        <script src="assets/js/kendo.js"></script>
+
+        <script>
+            if (kendo) kendo.culture("en-GB");
+			
+			$(document).ready(function () {
+				var currentLocation = window.location.pathname;
+				var reqKey = currentLocation.replace('/', '')	;
+				var keyStat = (reqKey.length == 6 ? true : false);					
+				if(keyStat == true) {
+					$('#notfound').addClass("display-none");
+					$('#RequestVerificationToken').val(reqKey);
+					$('#DocumentLinkKey').val(hash);
+					
+				}else{
+					//$('#frmData').addClass("display-none");
+					
+				}
+
+			});			
+        </script>
+
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <!-- Header & Top Links -->
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <span class="navbar-brand">
+                        <img width="134" height="46" src="assets/images/Identity-Malta-Logo.png" />
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!-- END Header & Top Links -->
+
+        <section class="container">
+            <script type="text/javascript">
+                $(function () {
+                    $(".helpImg").fullscreenImg();
+                    $(".validation-summary-errors ul:first").addClass("alert alert-danger");				
+                });				
+				
+				// RetryInput function
+                function retryInput() {
+                    $("#downloading").hide();
+                    $("#inputForm").show();
+                    $(".form-control").first().focus();
+                }
+
+
+					
+
+            </script>
+			<div id="tabContent" class="tab-content">
+				 <div role="tabpanel" class="tab-pane active">
+					<div class="row" style="margin: 0;">
+						<div id="error_code"></div>
+						<!---from -->
+						<form id="FormVerification" class="form no-block-on-submit allow-submit-on-enter">
+						
+							<div id="validation-container">
+								<div id="notfound" class="validation-summary-errors" data-valmsg-summary="true">
+									<ul class="alert alert-danger">
+										<span class="close" data-dismiss="alert">×</span>
+										<li>Document not found or link has expired/cancelled.</li>
+									</ul>
+								</div>
+							</div>	
+							
+							<!---  start :: form content  --->
+                            <div id="frmData" class="col-md-offset-2 col-md-8 col-xs-offset-1 col-xs-10 padding-top-30 padding-bottom-20">
+                                <fieldset>
+                                    <legend>
+										<i class="fa fa-2x fa-in-circle fa-primary hidden-xs hidden-sm fa-file" aria-hidden="true"></i>
+										Download Link Verification
+									</legend>
+                                    <div id="inputForm">									
+										<input 
+											id= "RequestVerificationToken" 
+											name="RequestVerificationToken" 
+											type="hidden" 
+										    value="url-key" 
+										/>									
+                                        <input 
+											data-val="true" 
+											data-val-required="Document Identifier is required" 
+											id="DocumentLinkKey" 
+											name="DocumentLinkKey" 
+											type="hidden" 
+											value="md5-response-key"
+										/>
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <div class="display-label">
+                                                    <label for="VerificationCode">Verification Code</label>
+                                                </div>
+                                                <div class="display-field">
+                                                    <input 
+														class="form-control" 
+														data-val="true" 
+														data-val-required="Verification Code is required" 
+														id="VerificationCode" 
+														name="VerificationCode" 
+														type="password" 
+														autocomplete="on"
+														value=""
+													/>
+                                                </div>
+                                                <div>
+                                                    <a
+                                                        class="helpImg"
+                                                        style="font-size: 12px;"
+                                                        target="_blank"
+                                                        href="assets/images/VerificationCodeSample.png"
+                                                        alt="Verification Code Sample"
+                                                        height="788"
+                                                        width="732"
+                                                        title="Verification Code Sample"
+                                                    >
+                                                        What is this?
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row margin-10 pull-right">
+                                            <button id="btn-confirm" name="submitButton" value="Confirm" type="submit" class="btn btn-secondary btn-block">
+                                                Confirm
+                                                <span class="caret-right pull-right"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="downloading" style="display: none;">
+										Download should be in progress. <a href="javascript:;" onclick="retryInput()">Go back</a>.
+									</div>
+                                </fieldset>
+                            </div>							
+							<!---- end   :: form content  --->
+						</form>
+					</div>
+				</div>
+			</div>
+			
+        </section>
+
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <p>© Identity Malta Agency</p>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <img width="134" height="46" src="assets/images/Identity-Malta-Logo-White.png" />
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="assets/js/jqueryval.js"></script>
+        <script src="assets/js/js.js"></script>
+        <script src="assets/js/app.js"></script>
+
+        <div id="blockUI-loading" style="display: none;">
+            <h3>Please wait...</h3>
+        </div>
+    </body>
+</html>			
